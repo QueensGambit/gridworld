@@ -17,7 +17,7 @@ z = np.zeros(gw.nfeatures())
 #import pdb
 #pdb.set_trace()
 #w = LSPI(t,0.0001,gw,z)
-print gw.phi(0,0)
-print gw.phi(0,1)
-print w
+print(gw.phi(0,0))
+print(gw.phi(0,1))
+print(w)
 

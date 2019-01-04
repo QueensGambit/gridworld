@@ -7,10 +7,10 @@ Alignment task encoded as an MDP.
 
 import os, sys, getopt, pdb, string
 import random as pr
-import cPickle as pickle
+import pickle as pickle
 import numpy as np
 import numpy.linalg as la
-from markovdp import MDP,FastMDP,SparseMDP, Features, AliasFeatures
+from .markovdp import MDP,FastMDP,SparseMDP, Features, AliasFeatures
 from utils import sp_create, sp_create_data
 
 # 1. state representation needs to indicate where the goal is
@@ -24,7 +24,7 @@ class Vergence( SparseMDP ):
         self.size = 10
         self.goal_index = 0
         self.state_names = [(x,y) for x in range(self.size) for y in range(self.size)] # x is the agent location, y is the goal location
-        self.states = range(len(self.state_names))
+        self.states = list(range(len(self.state_names)))
         self.actions = [0,1] # left or right
         self.nstates = self.size ** 2
         self.nactions = 2
@@ -76,16 +76,16 @@ if __name__ == '__main__':
     v = Vergence()
 
     # double check the dynamics
-    print v.rewards
+    print(v.rewards)
     for i in range(10):
-        print v.current, v.states[v.current], v.rewards[v.current]
-        print v.move(0)
+        print(v.current, v.states[v.current], v.rewards[v.current])
+        print(v.move(0))
     for i in range(10):
-        print v.current, v.states[v.current], v.rewards[v.current]
-        print v.move(1)
+        print(v.current, v.states[v.current], v.rewards[v.current])
+        print(v.move(1))
 
     # todo - add resets on success
     t = v.trace(1000, reset_on_endstate = True)
-    print t
+    print(t)
 
     

@@ -5,7 +5,7 @@ Program: GRIDWORLDLAKE.PY
 Date: Wednesday, January 27 2010
 Description: A Gridworld with a costly lake obstacle.
 """
-from gridworld import Gridworld
+from .gridworld import Gridworld
 
 class GridworldLake( Gridworld ):
 
@@ -38,6 +38,6 @@ class GridworldLake( Gridworld ):
 if __name__ == '__main__':
 
     gwl = GridworldLake(nrows=4,ncols = 4)
-    print gwl.lake
-    print gwl.rewards[0,0,5]
+    print(gwl.lake)
+    print(gwl.rewards[0,0,5])
 

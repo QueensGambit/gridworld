@@ -8,11 +8,11 @@ Description: A class for building gridworlds.
 
 import os, sys, getopt, pdb, string
 import random as pr
-import cPickle as pickle
+import pickle as pickle
 import numpy as np
 import numpy.linalg as la
 import pdb
-from markovdp import MDP,FastMDP,SparseMDP, Features, AliasFeatures
+from .markovdp import MDP,FastMDP,SparseMDP, Features, AliasFeatures
 from utils import sp_create, sp_create_data
 
 
@@ -82,7 +82,7 @@ class RBFObserverFeatures( Features ):
         Provide an estimate of the number of active features.
         """
         avg = 0
-        for v in pr.sample(self.memory.values(), 100):
+        for v in pr.sample(list(self.memory.values()), 100):
             avg += float(np.sum(v>0.0))
         return avg / 100.0
 
@@ -92,7 +92,7 @@ class RBFObserverFeatures( Features ):
         """
         c = np.array(self.observe(s))
         key = tuple(c)
-        if self.memory.has_key(key):
+        if key in self.memory:
             return self.memory[key]
         else: #.0001 works best?
             r = np.array([ np.exp(self.a * la.norm(c - i, ord=np.inf) ** 2) for i in self.rbf_loc ])
@@ -214,7 +214,7 @@ class SparseGridworld8( SparseMDP ):
         self.rstates = dict([(s,i) for (i,s) in enumerate(grid)]) # reverse lookup by grid coords
 
         if actions is None:
-            actions = range(8)
+            actions = list(range(8))
 
         self.allowed_actions = actions
         self.nstates = len(self.states)
@@ -262,7 +262,7 @@ class SparseGridworld8( SparseMDP ):
         return self.rstates[s]
 
     def coords_array(self):
-        return np.array(self.states.values())
+        return np.array(list(self.states.values()))
 
     def coords(self, s):
         return (s / self.ncols, s % self.ncols)
@@ -626,7 +626,7 @@ class MultiTargetGridworld(SparseMDP):
         return self.rstates[s]
 
     def coords_array(self):
-        return np.array(self.states.values())
+        return np.array(list(self.states.values()))
 
     def coords(self, s):
         return (s / self.ncols, s % self.ncols)

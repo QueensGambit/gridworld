@@ -12,7 +12,7 @@ import numpy as np
 import scipy as sp
 import scipy.io as sio
 
-from markovdp import MDP
+from .markovdp import MDP
 
 class Chainwalk( MDP ):
 

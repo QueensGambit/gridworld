@@ -14,7 +14,7 @@ import random as pr
 import numpy.linalg as la
 import matplotlib as mpl
 
-from markovdp import MP
+from .markovdp import MP
 
 class Boyan(MP):
 

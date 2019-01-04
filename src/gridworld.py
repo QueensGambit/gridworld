@@ -11,7 +11,7 @@ Note: This should be considered deprecated. Use gridworld8.py (which will eventu
 import os, sys, getopt, pdb, string
 import random as pr
 import numpy as np
-from markovdp import MDP, SparseMDP
+from .markovdp import MDP, SparseMDP
 import scipy.cluster.vq as vq
 
 class SparseGridworld( SparseMDP ):
@@ -211,8 +211,8 @@ if __name__ == '__main__':
     rewards = [x[2] for x in t]
 
     # sanity check the distribution over visited states
-    print np.histogram(states, bins=range(gw.nstates))
-    print np.histogram(rewards, bins = [0,1,2])
+    print(np.histogram(states, bins=list(range(gw.nstates))))
+    print(np.histogram(rewards, bins = [0,1,2]))
 
     gws = SparseGridworld(nrows = 32, ncols = 64) # without a sparse rep. this would blowup
     t = gws.trace(10000)

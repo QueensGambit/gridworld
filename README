@@ -1,4 +1,4 @@
-Gridwolds and Markov Decision Processes in Python
+Gridwolds and Markov Decision Processes in Python 3 (converted from Python 2)
 
 Author: Jeremy Stober
 Contact: stober@gmail.com
@@ -9,4 +9,4 @@ gridworlds that are convenient for testing reinforcement learning
 algorithms. Some visualization is provided, along with a few other
 mdps drawn from the literature on reinforcement learning.
 
-Note: This package now depends on https://github.com/stober/utils for sparse feature generation.
+Note: This package now depends on https://github.com/QueensGambit/utils for sparse feature generation.

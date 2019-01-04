@@ -14,8 +14,8 @@ import pygame.locals as pgl
 
 import numpy as np
 import random as pr
-from gridworld8 import SparseRBFGridworld8,SparseGridworld8,ObserverGridworld,SparseAliasGridworld8,RBFObserverGridworld
-from gridworld8 import wall_pattern
+from .gridworld8 import SparseRBFGridworld8,SparseGridworld8,ObserverGridworld,SparseAliasGridworld8,RBFObserverGridworld
+from .gridworld8 import wall_pattern
 
 def gridworld_gui_factory(baseclass):     
     """     
@@ -57,7 +57,7 @@ def gridworld_gui_factory(baseclass):
         def draw_state_labels(self):
             
             font = pygame.font.SysFont("FreeSans", 10)
-            for k,v in self.states.items():
+            for k,v in list(self.states.items()):
                 x,y = self.indx2coord(v[0],v[1],False)
                 txt = font.render("%d" % k, True, (0,0,0))
                 self.surface.blit(txt, (y,x))
@@ -94,7 +94,7 @@ def gridworld_gui_factory(baseclass):
             """
             font = pygame.font.SysFont("FreeSans", 10)
 
-            for k,v in self.states.items():
+            for k,v in list(self.states.items()):
                 x,y = self.indx2coord(v[0],v[1],False)
                 v = vals[k]
                 txt = font.render("%.1f" % v, True, (0,0,0))
@@ -141,7 +141,7 @@ def gridworld_gui_factory(baseclass):
             """
             self.bg_rendered = False
             self.colormap = {}
-            for s,c in sc.items():
+            for s,c in list(sc.items()):
                 self.colormap[s] = c
 
         def draw_colormap(self, surface):
@@ -260,7 +260,7 @@ def gridworld_gui_factory(baseclass):
                 self.surface.blit(self.bg,(0,0))
             else:
                 self.bg.fill((0,0,0))
-                for s,(i,j) in self.states.items():
+                for s,(i,j) in list(self.states.items()):
                     x,y = self.indx2coord(i,j)
                     coords = pygame.Rect(y,x,self.size,self.size)
                     pygame.draw.rect(self.bg, (255,255,255), coords)
@@ -300,7 +300,7 @@ def gridworld_gui_factory(baseclass):
 
             # need to examine what states are aliased under this clustering scheme (i.e. what are the clusters?)
             if s in range(self.nstates):
-                print s, self.phi(s,0), self.phi(s,1), self.phi(s,2), self.phi(s,3)
+                print(s, self.phi(s,0), self.phi(s,1), self.phi(s,2), self.phi(s,3))
 
             pygame.draw.circle(self.surface, (255,0,0), (y,x), self.size / 2)
 
@@ -308,7 +308,7 @@ def gridworld_gui_factory(baseclass):
         def follow(self, s, policy):
             self.current = s
             while not self.current  in self.endstates:
-                print policy(self.current)
+                print(policy(self.current))
                 self.move(policy(self.current))
                 time.sleep(0.5)
                 
@@ -368,7 +368,7 @@ def gridworld_gui_factory(baseclass):
                     elif event.type == pgl.MOUSEBUTTONDOWN:
                         state = self.coord2state(event.pos)
                         obs = self.observe(state)
-                        print state,obs
+                        print(state,obs)
                         self.test_rbf(state)
 
                     else:
@@ -383,10 +383,10 @@ def gridworld_gui_factory(baseclass):
             else:
                 #obs = self.observe(s)
                 r = self.rfunc(s)
-                print len(r)
+                print(len(r))
                 # t = np.zeros(self.nstates)
                 # t[s] = 1.0
-                print r
+                print(r)
                 self.set_heatmap(r)
                 self.background()
 
@@ -397,7 +397,7 @@ def gridworld_gui_factory(baseclass):
 
             for i in range(self.nstates):
 
-                print "Testing state %d" % i
+                print("Testing state %d" % i)
 
                 self.state2circle(i)
                 self.current = i
@@ -408,8 +408,8 @@ def gridworld_gui_factory(baseclass):
                 while not (self.current in self.endstates) or steps > 5:
 
                     action = self.linear_policy(w,self.current)
-                    print action
-                    print self.move(action)
+                    print(action)
+                    print(self.move(action))
                     time.sleep(1)
                     steps += 1
 

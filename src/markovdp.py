@@ -63,7 +63,7 @@ class AliasFeatures(Features):
         self.aliases = aliases
 
     def find_canonical(self, s):
-        for canonical, aliases in self.aliases.items():
+        for canonical, aliases in list(self.aliases.items()):
             if s in aliases:
                 return canonical
         return s
@@ -158,15 +158,15 @@ class MDP( Features ):
 
     def __init__(self, nstates = 32, nactions = 4):
         self.nstates = nstates
-        self.sindices = range(self.nstates)
+        self.sindices = list(range(self.nstates))
         self.nactions = nactions
-        self.actions = range(self.nactions)
+        self.actions = list(range(self.nactions))
         self.vcnts = np.zeros(self.nstates)
         self.gamma = 0.9
 
         # possible start states for reset problems
         if not hasattr(self, 'startindices'):
-            self.startindices = range(self.nstates)
+            self.startindices = list(range(self.nstates))
 
         # possible end states that initiate resets
         if not hasattr(self, 'endstates'):
@@ -220,7 +220,7 @@ class MDP( Features ):
 
                 values[s] = np.max(sums)
                 delta = max(delta, abs(v - values[s]))
-            print i,delta
+            print(i,delta)
             i += 1
             if delta < rtol:
                 break
@@ -413,14 +413,14 @@ class MDP( Features ):
             markers.append(acc)
 
         r = pr.random()
-        print markers, r
+        print(markers, r)
         return np.searchsorted(markers, r)
 
     def softmax(self, values):
         e = np.exp(values)
         d = np.sum(e)
         p = e / d
-        print p
+        print(p)
         return self.biased_choice(self.actions, p)
 
     def soft_linear_policy(self, w, s):
@@ -558,13 +558,13 @@ class MDP( Features ):
                 next_action = policy(observe(self.current))
                 self.move(next_action)
 
-                if result.has_key(self.current) and result[self.current]:
+                if self.current in result and result[self.current]:
                     # add additional trace states to the result set with postive outcome
                     for i in trace:
                         result[i] = 1
                     break
 
-                elif result.has_key(self.current) and not result[self.current]:
+                elif self.current in result and not result[self.current]:
                     # add additional trace states to the result set with negative outcome
                     for i in trace:
                         result[i] = 0
@@ -632,14 +632,14 @@ class FastMDP(MDP):
 
     def __init__(self, nstates = 32, nactions = 4):
         self.nstates = nstates
-        self.sindices = range(self.nstates)
+        self.sindices = list(range(self.nstates))
         self.nactions = nactions
-        self.actions = range(self.nactions)
+        self.actions = list(range(self.nactions))
         self.vcnts = np.zeros(self.nstates)
         self.gamma = 0.9
 
         if not hasattr(self, 'startindices'):
-            self.startindices = range(self.nstates)
+            self.startindices = list(range(self.nstates))
 
         # possible end states that initiate resets
         if not hasattr(self, 'endstates'):
@@ -756,15 +756,15 @@ class SparseMDP( MDP ):
 
     def __init__(self, nstates = 32, nactions = 4):
         self.nstates = nstates
-        self.sindices = range(self.nstates)
+        self.sindices = list(range(self.nstates))
         self.nactions = nactions
-        self.actions = range(self.nactions)
+        self.actions = list(range(self.nactions))
         self.vcnts = np.zeros(self.nstates)
         self.gamma = 0.9
 
         # possible start states for reset problems
         if not hasattr(self, 'startindices'):
-            self.startindices = range(self.nstates)
+            self.startindices = list(range(self.nstates))
 
         # possible end states that initiate resets
         if not hasattr(self, 'endstates'):
@@ -811,7 +811,7 @@ class SparseMDP( MDP ):
             for a in actions:
                 distribution = self.model[a, s]
                 for (t, p) in distribution:
-                    print t
+                    print(t)
                     if p > 0.0 and s != t:
                         matrix[s, t] = 1.0
         return matrix
@@ -858,7 +858,7 @@ class SparseMDP( MDP ):
                         sums[a] += p * (self.rewards[t] + self.gamma * values[t])
                 values[s] = np.max(sums)
                 delta = max(delta, abs(v - values[s]))
-            print i,delta
+            print(i,delta)
             i += 1
             if delta < rtol:
                 break
